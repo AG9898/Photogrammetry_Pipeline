@@ -1,10 +1,10 @@
-# 📐 Photogrammetry Pipeline
+# Photogrammetry Pipeline
 
 A modular pipeline combining spatial intersection and bundle adjustment to compute and refine 3D point positions from 2D observations and camera poses. Supports both **synthetic datasets** for validation and **real photogrammetric datasets** (e.g., COLMAP exports).
 
 ---
 
-## 🚩 Purpose
+## Purpose
 
 This repository orchestrates the two core stages of a photogrammetric pipeline:
 
@@ -17,7 +17,7 @@ Both stages are implemented as submodules:
 
 ---
 
-## 📊 Key Features
+##  Key Features
 - End-to-end photogrammetric pipeline (intersection ➔ refinement)
 - Supports synthetic and real datasets (COLMAP exports)
 - Consistent data structures between stages
@@ -26,7 +26,7 @@ Both stages are implemented as submodules:
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```
 Photogrammetry_Pipeline/
@@ -38,16 +38,16 @@ Photogrammetry_Pipeline/
 
 ---
 
-## 🚀 Usage
+##  Usage
 
-### 1️⃣ Synthetic Data Example (`pipeline_main.py`)
+### Synthetic Data Example (`pipeline_main.py`)
 Demonstrates seamless handoff between tools using synthetic data.
 
 ```bash
 python pipeline_main.py
 ```
 
-### 2️⃣ Real Data Example (COLMAP)
+### Real Data Example (COLMAP)
 Run Spatial Intersection first:
 
 ```bash
@@ -62,21 +62,21 @@ python bundle_adjustment/src/main.py --dataset colmap --images_txt ... --points3
 
 ---
 
-## 📈 Outputs
+## Outputs
 - 3D plots (cameras, rays, points)
 - Reprojection error histograms
 - Console summaries of intersection and adjustment results
 
 ---
 
-## 🔮 Future Extensions
+## Future Extensions
 - Robust intersection (RANSAC) for noisy observations
 - Control point integration for georeferencing
 - Integration with SfM outputs from OpenMVG, Metashape
 
 ---
 
-## 🤝 Acknowledgments
+## Acknowledgments
 Built on top of the separately maintained:
 - [Bundle Adjustment Tool](./bundle_adjustment)
 - [Spatial Intersection Tool](./Spatial_Intersection_Tool)
