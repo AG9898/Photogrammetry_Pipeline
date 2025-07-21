@@ -22,6 +22,7 @@ from Spatial_Intersection_Tool.src.visualizations.plot_summary import print_inte
 
 # --- Bundle Adjustment Tool Imports ---
 from bundle_adjustment.src.data.observations import BundleAdjustmentData, Observation
+from bundle_adjustment.src.data.camera_models import CameraModel as BACameraModel  # Explicit BA camera model
 from bundle_adjustment.src.core.residuals import compute_reprojection_error
 from bundle_adjustment.src.solvers.sparse_lm_solver import SparseLMSolver
 from bundle_adjustment.src.visualizations.plot_cameras import plot_cameras_and_points
@@ -40,7 +41,8 @@ def main():
 
         # 2️⃣ Run Spatial Intersection
         print("\n[2] Running spatial intersection...")
-        points_3d_initial = run_spatial_intersection(si_data)
+        # Now returns both points_3d and dense_index_mapping
+        points_3d_initial, dense_index_mapping = run_spatial_intersection(si_data)
         si_quality = compute_triangulation_quality(si_data, points_3d_initial)
         print_intersection_summary(points_3d_initial, np.array([]), title="Spatial Intersection Summary")
         plot_3d_scene(si_data.camera_poses, points_3d_initial, title="Spatial Intersection: 3D Points")
@@ -48,21 +50,27 @@ def main():
 
         # 3️⃣ Adapt Data for Bundle Adjustment
         print("\n[3] Adapting data for bundle adjustment...")
-        # Convert SpatialIntersectionData observations to BA Observations if needed
-        ba_observations = []
+        # Remap observations so that point_index matches the dense indices of triangulated points
+        remapped_observations = []
         for obs in si_data.points_2d:
-            # BundleAdjustmentData expects Observation with camera_index, point_index, image_point
-            ba_observations.append(Observation(
-                camera_index=obs.camera_index,
-                point_index=obs.point_index,
-                image_point=obs.location
-            ))
-        # Construct BundleAdjustmentData
+            if obs.point_index in dense_index_mapping:
+                new_index = dense_index_mapping[obs.point_index]
+                remapped_observations.append(Observation(
+                    camera_index=obs.camera_index,
+                    point_index=new_index,
+                    image_point=obs.location
+                ))
+        # Construct a new BA camera model using the same intrinsics
+        ba_camera_model = BACameraModel(
+            focal_length=si_data.camera_model.focal_length,
+            principal_point=si_data.camera_model.principal_point
+        )
+        # Construct BundleAdjustmentData with remapped observations and dense points_3d
         ba_data = BundleAdjustmentData(
             camera_poses=si_data.camera_poses,
             points_3d=points_3d_initial,
-            observations=ba_observations,
-            camera_model=si_data.camera_model
+            observations=remapped_observations,
+            camera_model=ba_camera_model
         )
         print(f"  Cameras: {len(ba_data.camera_poses)} | Observations: {len(ba_data.observations)} | Initial 3D points: {ba_data.points_3d.shape[0]}")
 
