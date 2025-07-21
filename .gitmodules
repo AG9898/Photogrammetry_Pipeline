@@ -1,0 +1,6 @@
+[submodule "bundle_adjustment"]
+	path = bundle_adjustment
+	url = https://github.com/AG9898/Bundle_Adjustment_Tool.git
+[submodule "Spatial_Intersection_Tool"]
+	path = Spatial_Intersection_Tool
+	url = https://github.com/AG9898/Spatial_Intersection_Tool.git
