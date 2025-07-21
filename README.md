@@ -12,8 +12,8 @@ This repository orchestrates the two core stages of a photogrammetric pipeline:
 2. **Bundle Adjustment:** Refines both camera poses and 3D points to minimize reprojection errors.
 
 Both stages are implemented as submodules:
-- [`bundle_adjustment/`](./bundle_adjustment) — Bundle Adjustment Tool
-- [`Spatial_Intersection_Tool/`](./Spatial_Intersection_Tool) — Spatial Intersection Tool
+- [Bundle Adjustment Tool](https://github.com/AG9898/Bundle_Adjustment_Tool.git)
+- [Spatial Intersection Tool](https://github.com/AG9898/Spatial_Intersection_Tool.git)
 
 ---
 
@@ -78,8 +78,8 @@ python bundle_adjustment/src/main.py --dataset colmap --images_txt ... --points3
 
 ## Acknowledgments
 Built on top of the separately maintained:
-- [Bundle Adjustment Tool](./bundle_adjustment)
-- [Spatial Intersection Tool](./Spatial_Intersection_Tool)
+- [Bundle Adjustment Tool](https://github.com/AG9898/Bundle_Adjustment_Tool.git)
+- [Spatial Intersection Tool](https://github.com/AG9898/Spatial_Intersection_Tool.git)
 
 Both tools share consistent conventions and data structures for easy interoperability.
 
